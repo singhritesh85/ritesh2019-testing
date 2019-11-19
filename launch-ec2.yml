@@ -6,9 +6,9 @@
             "Description": "Key Pair name",
             "Type": "AWS::EC2::KeyPair::KeyName"    
         },
-		"ProvideImageId": {
-		    "Description": "Provide Image Id",
-			"Type": "AWS::EC2::Image::Id"
+	          "ProvideImageId": {
+		      "Description": "Provide Image Id",
+                        "Type": "AWS::EC2::Image::Id"
 		},
 		"ProvideInstanceType": {
 		    "Description": "Provide Instance Type",
