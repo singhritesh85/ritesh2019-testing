@@ -2,7 +2,7 @@
     "AWSTemplateFormatVersion": "2010-09-09",
     "Description": "loudFn template for creating an e", 
     "Resources": {
-	    "MyEC2Instance" : {
+         "MyEC2Instance" : {
             "Type" : "AWS::EC2::Instance",
             "Properties" : {
                 "ImageId": "ami-0c64dd618a49aeee8",
@@ -10,6 +10,5 @@
                 "InstanceType": "t2. micro"
             }
            }
-
-	}
+     }
 }
