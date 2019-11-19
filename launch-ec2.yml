@@ -1,0 +1,82 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Description": "CloudFormation template for creating an ec2 instance",
+    "Parameters": {
+        "KeyPairName": {
+            "Description": "Key Pair name",
+            "Type": "AWS::EC2::KeyPair::KeyName"    
+        },
+		"ProvideImageId": {
+		    "Description": "Provide Image Id",
+			"Type": "AWS::EC2::Image::Id"
+		},
+		"ProvideInstanceType": {
+		    "Description": "Provide Instance Type",
+			"Type": "String",
+			"Default": "t2.micro",
+			"AllowedValues": ["t2.nano", "t2.micro", "t2.medium", "t2.small"]
+		},
+		"ProvideSecurityGroupIds": {
+		    "Description": "Select the Security Group Id from the list",
+			"Type": "AWS::EC2::SecurityGroup::Id"
+		},
+		"ProvideSubnetId": {
+		    "Description": "Select the Subnet Id from the drop down list",
+			"Type": "AWS::EC2::Subnet::Id"
+		},
+		"ProvideAvailabilityZone": {
+		    "Description": "Provide the Availability Zone",
+			"Type": "AWS::EC2::AvailabilityZone::Name"
+		},
+		"ProvideInstanceName": {
+		    "Description": "Provide the Instance Name",
+			"Type": "String"
+	    },
+		"ProvideDeviceType": {
+		    "Description": "Select the Device Type from the list",
+			"Type": "String",
+			"Default": "/dev/xvdb",
+			"AllowedValues": ["/dev/xvdb", "/dev/sda2"]
+		}
+	},
+	"Resources": {
+	    "MyEC2Instance" : {
+            "Type" : "AWS::EC2::Instance",
+            "Properties" : {
+                "ImageId" : {"Ref": "ProvideImageId"},
+                "KeyName" : {"Ref": "KeyPairName"},
+				"InstanceType" : {"Ref": "ProvideInstanceType"},
+				"SecurityGroupIds" : [{"Ref": "ProvideSecurityGroupIds"}],
+				"SubnetId" : {"Ref": "ProvideSubnetId"},
+				"AvailabilityZone" : {"Ref": "ProvideAvailabilityZone"},
+		        "Tags" : [ {
+                    "Key" : "Name",
+                    "Value" : {"Ref": "ProvideInstanceName"}
+                } ]		
+            }
+        },
+		"NewVolume" : {
+            "Type" : "AWS::EC2::Volume",
+            "Properties" : {
+                "Size" : "20",
+				"VolumeType": "gp2",
+                "AvailabilityZone" : { "Fn::GetAtt" : [ "MyEC2Instance", "AvailabilityZone" ] },
+				"Encrypted" : "true",
+                "Tags" : [ {
+                    "Key" : "Name",
+                    "Value" : "Volume-2"
+                } ]
+            },
+			"DeletionPolicy" : "Snapshot"
+        },            
+        "MountPoint" : {
+            "Type" : "AWS::EC2::VolumeAttachment",
+            "Properties" : {
+                "InstanceId" : { "Ref" : "MyEC2Instance" },
+                "VolumeId"  : { "Ref" : "NewVolume" },
+                "Device" : {"Ref": "ProvideDeviceType"}
+            }
+        }
+
+	}
+}
