@@ -1,0 +1,18 @@
+diff --git a/test-file2.txt b/test-file2.txt
+index 1f58fa8..e69de29 100644
+--- a/test-file2.txt
++++ b/test-file2.txt
+@@ -1 +0,0 @@
+-Hello World!!!
+diff --git a/test.txt b/test.txt
+index 6de7b8c..e69de29 100644
+--- a/test.txt
++++ b/test.txt
+@@ -1 +0,0 @@
+-This is a test file.
+diff --git a/testing-done.txt b/testing-done.txt
+index 6de7b8c..e69de29 100644
+--- a/testing-done.txt
++++ b/testing-done.txt
+@@ -1 +0,0 @@
+-This is a test file.
